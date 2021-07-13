@@ -9,7 +9,7 @@ productsMethod.getAllProducts = async (req, res) => {
 	try {
 		const result = await modelProduct.getAll();
 		const data = JSON.stringify(result);
-		logger.debug('data dari postgre');
+		console.log('data dari postgre');
 		redisDb.setex('products', 20, data);
 		handler(res, 200, result);
 	} catch (error) {
@@ -37,9 +37,7 @@ productsMethod.searchData = async (req, res) => {
 
 productsMethod.filterSeller = async (req, res) => {
 	try {
-		logger.debug(req.query.st);
 		const result = await modelProduct.search(req.query.st);
-		logger.debug('data dari postgre');
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);
@@ -84,6 +82,7 @@ productsMethod.addToBag = async (req, res) => {
 	try {
 		const result = await modelProduct.addItemBag(req.body);
 		redisDb.del('product');
+		redisDb.del('seller');
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);
@@ -111,6 +110,7 @@ productsMethod.updateProduct = async (req, res) => {
 		console.log(data);
 		const result = await modelProduct.changeProduct(data);
 		redisDb.del('product');
+		redisDb.del('seller');
 		handler(res, 200, result);
 	} catch (error) {
 		console.log(error);
@@ -123,6 +123,7 @@ productsMethod.deleteProduct = async (req, res) => {
 		console.log(req.query.id);
 		const result = await modelProduct.delete(req.query.id);
 		redisDb.del('product');
+		redisDb.del('seller');
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);
@@ -146,6 +147,7 @@ productsMethod.addToProduct = async (req, res) => {
 
 		const result = await modelProduct.addProduct(data);
 		redisDb.del('product');
+		redisDb.del('seller');
 		handler(res, 200, result);
 	} catch (error) {
 		console.log(error);
@@ -156,6 +158,9 @@ productsMethod.addToProduct = async (req, res) => {
 productsMethod.getProductSeller = async (req, res) => {
 	try {
 		const result = await modelProduct.getSeller(req.params.seller);
+		const data = JSON.stringify(result);
+		console.log('data dari postgre');
+		redisDb.setex('seller', 20, data);
 		handler(res, 200, result);
 	} catch (error) {
 		console.log(error);

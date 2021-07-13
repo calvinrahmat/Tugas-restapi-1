@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const ctrlProducts = require('../controllers/products');
 const validate = require('../middleware/validate');
-const uploads = require('../middleware/upload');
 const cache = require('../middleware/cache');
 
 router.get('/', cache.productCache, ctrlProducts.getAllProducts);

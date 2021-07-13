@@ -8,7 +8,7 @@ bagMethod.getAll = async (req, res) => {
 	try {
 		const result = await modelBag.getAllBag();
 		const data = JSON.stringify(result);
-		logger.debug('data dari postgre');
+		console.log('data dari postgre');
 		redisDb.setex('bag', 20, data);
 		handler(res, 200, result);
 	} catch (error) {
@@ -20,7 +20,7 @@ bagMethod.getAll = async (req, res) => {
 bagMethod.deleteItem = async (req, res) => {
 	try {
 		const result = await modelBag.delete(req.query.id);
-		redisDb.del('product');
+		redisDb.del('bag');
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);
@@ -30,7 +30,7 @@ bagMethod.deleteItem = async (req, res) => {
 bagMethod.updateQuantity = async (req, res) => {
 	try {
 		const result = await modelBag.updateQty(req.body);
-		redisDb.del('product');
+		redisDb.del('bag');
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);

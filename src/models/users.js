@@ -56,4 +56,28 @@ usersDB.getAll = () => {
 	});
 };
 
+usersDB.update = (item) => {
+	return new Promise((resolve, reject) => {
+		db.query(
+			'UPDATE seller SET name = $1, email = $2, gender = $3, dob = $4, address = $5, img = $6 WHERE id = $7',
+			[
+				item.name,
+				item.email,
+				item.gender,
+				item.dob,
+				item.address,
+				item.img,
+				item.id,
+			]
+		)
+			.then((res) => {
+				resolve(item);
+			})
+			.catch((err) => {
+				console.log(err);
+				reject(err);
+			});
+	});
+};
+
 module.exports = usersDB;
