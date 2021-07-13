@@ -35,8 +35,7 @@ sellerDB.addPass = (data) => {
 			`UPDATE public.seller SET pass='${data.pass}' where email='${data.email}'`
 		)
 			.then((res) => {
-				console.log(res);
-				resolve(res);
+				resolve({ msg: 'Password changed !' });
 			})
 			.catch((err) => {
 				reject(err);
