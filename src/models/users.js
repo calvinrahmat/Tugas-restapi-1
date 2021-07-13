@@ -35,8 +35,7 @@ usersDB.addPass = (data) => {
 			`UPDATE public.users SET pass='${data.pass}' where email='${data.email}'`
 		)
 			.then((res) => {
-				console.log(res);
-				resolve(res);
+				resolve(res.rows);
 			})
 			.catch((err) => {
 				reject(err);
