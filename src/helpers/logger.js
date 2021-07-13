@@ -7,7 +7,7 @@ const options = {
 		filename: './logs/app.log',
 		handleExceptions: true,
 		json: true,
-		maxsize: 5242880, // 5MB
+		maxsize: 5242880,
 		colorize: false,
 	},
 	console: {
