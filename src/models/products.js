@@ -231,4 +231,17 @@ productDB.getId = (id) => {
 	});
 };
 
+productDB.getSeller = (data) => {
+	return new Promise((resolve, reject) => {
+		db.query(`SELECT * FROM fashion WHERE seller = '${data}'`)
+			.then((res) => {
+				console.log(data);
+				resolve(res.rows);
+			})
+			.catch((err) => {
+				reject(err);
+			});
+	});
+};
+
 module.exports = productDB;

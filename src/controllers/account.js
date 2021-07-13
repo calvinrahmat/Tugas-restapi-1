@@ -34,7 +34,6 @@ sellerMethod.resetPassword = async (req, res) => {
 			return handler(res, 200, { msg: 'email tidak terdaftar !' });
 		}
 		const result = await modelSeller.addPass(req.body);
-		console.log(result);
 		return handler(res, 200, result);
 	} catch (error) {
 		return handler(res, 500, error, true);

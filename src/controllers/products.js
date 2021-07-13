@@ -10,7 +10,7 @@ productsMethod.getAllProducts = async (req, res) => {
 		const result = await modelProduct.getAll();
 		const data = JSON.stringify(result);
 		logger.debug('data dari postgre');
-		redisDb.set('products', data);
+		redisDb.setex('products', 20, data);
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);
@@ -39,6 +39,7 @@ productsMethod.filterSeller = async (req, res) => {
 	try {
 		logger.debug(req.query.st);
 		const result = await modelProduct.search(req.query.st);
+		logger.debug('data dari postgre');
 		handler(res, 200, result);
 	} catch (error) {
 		handler(res, 400, error);
@@ -145,6 +146,16 @@ productsMethod.addToProduct = async (req, res) => {
 
 		const result = await modelProduct.addProduct(data);
 		redisDb.del('product');
+		handler(res, 200, result);
+	} catch (error) {
+		console.log(error);
+		handler(res, 400, error);
+	}
+};
+
+productsMethod.getProductSeller = async (req, res) => {
+	try {
+		const result = await modelProduct.getSeller(req.params.seller);
 		handler(res, 200, result);
 	} catch (error) {
 		console.log(error);
